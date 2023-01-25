@@ -61,8 +61,19 @@ public class Task {
 
     }
 
-    public void updateTask(){
-
+    public void updateTask(int id, String Name, boolean IsComplete){
+        try {
+            Connection dbConnection = DBConnection.getInstance().getConnection();
+            PreparedStatement updateStmt =
+                    dbConnection.prepareStatement("UPDATE todo SET Task = ?, done = ? WHERE ID = ?;");
+            updateStmt.setString(1, Name);
+            updateStmt.setBoolean(2, IsComplete);
+            updateStmt.setInt(3, id);
+            int rows = updateStmt.executeUpdate();
+            System.out.println("Rows affected: " + rows);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public String toString(){
